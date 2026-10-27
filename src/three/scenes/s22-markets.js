@@ -102,7 +102,14 @@ export function createScene(stage, kit, ctx) {
   // Positions checked at 1366×768: the stack title sits top-right, the price-axis title top-left.
   const stackLabel = at(lab.stack, V(9, 8.4, STACK.z));
   const demandLabel = at(lab.demand, V(demandX, 9.3, STACK.z));
-  const axisTag = (text, p, anchor = 'center') => { const o = L.tagLabel(text, null, { anchor }); o.position.copy(p); scene.add(o); return o; };
+  // Axis titles are hidden on phones (the text panel explains the axes there).
+  const axisTag = (text, p, anchor = 'center') => {
+    const o = L.tagLabel(text, null, { anchor });
+    o.element.classList.add('tag3d--minor');
+    o.position.copy(p);
+    scene.add(o);
+    return o;
+  };
   axisTag(T.priceAxis, STACK.clone().add(V(-0.6, 8.0, 1.3)), 'left');
   axisTag(T.mwAxis, STACK.clone().add(V(stack.width / 2, -0.6, 1.8)));
 

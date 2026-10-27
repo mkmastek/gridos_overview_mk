@@ -8,6 +8,10 @@ import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import { SCENE } from './materials.js';
 import { flyTo as flyCamera, farther } from './kit/Camera.js';
 
+// Width/height of the desktop 3D view the camera presets were checked at (1366×768).
+const REF_ASPECT = 1.65;
+const MAX_FOV = 75;
+
 export class Stage {
   constructor(container, { tooltip }) {
     this.container = container;
@@ -70,6 +74,11 @@ export class Stage {
       const r = this.reserveBottom;
       const shift = this.active.reserveShift ?? this.reserveShift;
       cam.aspect = w / (h + r);
+      // Camera presets were framed for a wide desktop view. On narrower (taller) views, widen
+      // the vertical field of view so the left-to-right framing stays the same.
+      const base = (cam.userData.baseFov ??= cam.fov);
+      const fit = Math.atan(Math.tan(THREE.MathUtils.degToRad(base / 2)) * (REF_ASPECT / cam.aspect));
+      cam.fov = cam.aspect < REF_ASPECT ? Math.min(MAX_FOV, THREE.MathUtils.radToDeg(2 * fit)) : base;
       if (r) cam.setViewOffset(w, h + r, 0, r * shift, w, h);
       else cam.clearViewOffset();
       cam.updateProjectionMatrix();
@@ -173,6 +182,91 @@ export class Stage {
     this.controls?.update();
     this.renderer.render(a.scene, a.camera);
     this.labels.render(a.scene, a.camera);
+    this.keepLabelsInView();
+  }
+
+  /**
+   * Labels have a fixed pixel size, so on narrow screens (and near the frame edge) they can
+   * collide or fall partly outside the view. After each render, a label partly outside the
+   * view is nudged back inside (above the reserved bottom band), and a label that overlaps
+   * one placed before it slides just far enough to clear it. Moving packet labels are only
+   * kept in view, so they never jitter; labels entirely out of view are left alone.
+   * CSS2DRenderer rewrites each transform on every render, so the nudges never accumulate.
+   */
+  keepLabelsInView() {
+    const layer = this.labels.domElement;
+    const box = layer.getBoundingClientRect();
+    const m = 4;
+    const left = box.left + m;
+    const right = box.right - m;
+    const top = box.top + m;
+    const bottom = box.bottom - this.reserveBottom - m;
+    // Read every rectangle first, then write, so the browser lays out the page only once.
+    const items = [];
+    for (const el of layer.children) {
+      if (el.style.display === 'none' || Number(el.style.opacity || 1) < 0.15) continue;
+      const r = el.getBoundingClientRect();
+      if (!r.width) continue;
+      // Labels just past the edge (anchored right on it) count as in view too.
+      const inView = r.right > box.left - 12 && r.left < box.right + 12 && r.bottom > box.top - 12 && r.top < box.bottom + 12;
+      items.push({ el, x: r.left, y: r.top, w: r.width, h: r.height, dx: 0, dy: 0, inView,
+        fixed: el.classList.contains('label3d--accent'), moving: el.classList.contains('packet3d') });
+    }
+
+    // Offset that keeps a label inside the view.
+    const inside = (it, dx, dy) => {
+      if (!it.inView) return [dx, dy];
+      const x = it.x + dx;
+      const y = it.y + dy;
+      return [
+        dx + (x < left ? left - x : x + it.w > right ? right - (x + it.w) : 0),
+        dy + (y < top ? top - y : y + it.h > bottom ? bottom - (y + it.h) : 0),
+      ];
+    };
+    const hits = (it, dx, dy, p) => {
+      const ix = Math.min(it.x + dx + it.w, p.x + p.dx + p.w) - Math.max(it.x + dx, p.x + p.dx);
+      const iy = Math.min(it.y + dy + it.h, p.y + p.dy + p.h) - Math.max(it.y + dy, p.y + p.dy);
+      return ix > 2 && iy > 2 ? ix * iy : 0;
+    };
+
+    // Highlighted labels are placed first, then the rest in scene order. Each label tries
+    // moves that clear the labels it hits (up, down, left, right, then one move further) and
+    // keeps the closest position that overlaps nothing — or, failing that, overlaps least.
+    const placed = [];
+    for (const it of [...items.filter((i) => i.fixed), ...items.filter((i) => !i.fixed)]) {
+      [it.dx, it.dy] = inside(it, 0, 0);
+      if (it.inView && !it.moving) {
+        const cost = (dx, dy) => placed.reduce((s, p) => s + hits(it, dx, dy, p), 0);
+        let best = { dx: it.dx, dy: it.dy, cost: cost(it.dx, it.dy), dist: 0 };
+        let frontier = [[it.dx, it.dy]];
+        for (let depth = 0; depth < 2 && best.cost > 0; depth += 1) {
+          const next = [];
+          for (const [cx, cy] of frontier) {
+            for (const p of placed) {
+              if (!hits(it, cx, cy, p)) continue;
+              const px = p.x + p.dx;
+              const py = p.y + p.dy;
+              for (const [sx, sy] of [[0, py - 2 - (it.y + cy + it.h)], [0, py + p.h + 2 - (it.y + cy)], [px - 2 - (it.x + cx + it.w), 0], [px + p.w + 2 - (it.x + cx), 0]]) {
+                const [nx, ny] = inside(it, cx + sx, cy + sy);
+                if (Math.abs(nx) > it.w || Math.abs(ny) > it.h * 2.5) continue;
+                const c = cost(nx, ny);
+                const dist = Math.abs(nx) + Math.abs(ny);
+                if (c < best.cost || (c === best.cost && dist < best.dist)) best = { dx: nx, dy: ny, cost: c, dist };
+                next.push([nx, ny]);
+              }
+            }
+          }
+          frontier = next;
+        }
+        it.dx = best.dx;
+        it.dy = best.dy;
+      }
+      if (!it.moving) placed.push(it);
+    }
+
+    for (const it of items) {
+      if (it.dx || it.dy) it.el.style.transform += ` translate(${it.dx.toFixed(1)}px, ${it.dy.toFixed(1)}px)`;
+    }
   }
 
   // ── Picking (click and hover on 3D objects) ──────────────────

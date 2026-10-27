@@ -1,19 +1,13 @@
 // Camera presets and smooth moves.
-// A preset is { pos: [x, y, z], target: [x, y, z] }, authored for a ~1.5 wide stage.
-// On narrower screens (tablet, phone) the camera is pushed back along its view line so
-// the same content still fits.
+// A preset is { pos: [x, y, z], target: [x, y, z] }, framed for the desktop stage.
+// Narrower screens (tablet, phone) keep the same framing through the field of view
+// (see Stage.resize), so presets are used as they are.
 
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 
-export const REF_ASPECT = 1.5;
-
-export function fitPreset(preset, aspect) {
-  const target = new THREE.Vector3(...preset.target);
-  const pos = new THREE.Vector3(...preset.pos);
-  const k = Math.max(1, REF_ASPECT / Math.max(aspect, 0.3)) ** 0.85;
-  if (k > 1) pos.sub(target).multiplyScalar(k).add(target);
-  return { pos, target };
+function toVectors(preset) {
+  return { pos: new THREE.Vector3(...preset.pos), target: new THREE.Vector3(...preset.target) };
 }
 
 /** A preset moved `factor` times further out — used for the fly-in when a slide opens. */
@@ -27,9 +21,9 @@ export function farther(preset, factor = 1.35) {
  * Fly `camera` + OrbitControls `controls` to a preset. Returns the tween (or null if instant).
  */
 export function flyTo(camera, controls, preset, { duration = 1.4, instant = false, from = null } = {}) {
-  const dest = fitPreset(preset, camera.aspect);
+  const dest = toVectors(preset);
   if (from) {
-    const f = fitPreset(from, camera.aspect);
+    const f = toVectors(from);
     camera.position.copy(f.pos);
     controls.target.copy(f.target);
   }

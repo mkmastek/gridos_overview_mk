@@ -715,6 +715,12 @@ a { color: var(--mastek-blue); }
   .legend { justify-content: flex-start; flex-basis: 100%; font-size: 12px; }
   .legend ul { justify-content: flex-start; }
   .stage-hint { display: none; }
+  /* Smaller 3D labels: the scene is drawn smaller here, the labels shrink with it. */
+  .label3d { padding: 3px 8px 4px; }
+  .label3d__title { font-size: 12px; }
+  .label3d__sub { font-size: 9.5px; }
+  .label3d--big .label3d__title { font-size: 15px; }
+  .label3d--big .label3d__sub { font-size: 10.5px; }
 }
 
 @media (max-width: 640px) {
@@ -725,6 +731,17 @@ a { color: var(--mastek-blue); }
   .topbar__slide { font-size: 15px; }
   .demo { padding: 8px 10px 10px; }
   .flow-arrow { flex-basis: 28px; min-width: 28px; }
+  /* The scenes are wide: a shorter view on a phone keeps them from shrinking into a strip. */
+  .stage-canvas { height: min(55vh, 88vw); min-height: 280px; }
+  /* Phones: 3D labels show the short name only; the highlighted label keeps its full form
+     (every full form is also in the text below and in the Terms strip). */
+  .label3d { padding: 2px 6px 3px; border-radius: 6px; }
+  .label3d__title, .label3d--big .label3d__title { font-size: 11px; }
+  .label3d:not(.label3d--accent) .label3d__sub { display: none; }
+  .label3d--accent .label3d__sub { font-size: 9px; }
+  .tag3d, .counter3d { font-size: 10.5px; }
+  .tag3d--minor { display: none !important; }
+  .packet3d { font-size: 10px; padding: 1px 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

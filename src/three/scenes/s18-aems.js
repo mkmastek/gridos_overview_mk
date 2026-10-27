@@ -70,6 +70,7 @@ export function createScene(stage, kit, ctx) {
     const anchor = i === 3 ? 'right' : i === 4 ? 'center' : 'bottom';
     const tag = L.tagLabel(fill(T.busTag, { n: i + 1 }), fill(T.busTip, { n: i + 1 }), { anchor });
     tag.position.copy(p).add(i === 3 ? V(-1.5, 1.2, 0) : i === 4 ? V(0, 0.3, 2.2) : V(0, 2.4, 0));
+    tag.element.classList.add('tag3d--minor'); // hidden on phones, where the line values need the room
     scene.add(tag);
     return { ...b, tag, color: new THREE.Color() };
   });
