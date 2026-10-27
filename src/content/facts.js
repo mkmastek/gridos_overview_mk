@@ -1,0 +1,247 @@
+// Fact sheet — the ONLY allowed source of product facts (PROMPT.md Section 11).
+// Sources were checked on 26 October 2026; GE Vernova product pages may change.
+//
+// Fact shape: { id, text, vendorReported, qualifier, sources: [urls], sourceIds: ['S2', ...] }
+// `text` keeps the fact sheet's wording and is reference data. Slides show their own wording
+// (with abbreviations expanded) in their `keyFacts` entries and cite the fact by `id`.
+// Vendor-reported facts carry a `qualifier` that every slide citing them must display.
+
+export const SOURCES = {
+  S1: 'https://www.ge.com/news/press-releases/GE-Digital-Announces-GridOS-Software',
+  S2: 'https://www.gevernova.com/software/products/gridos-for-distribution',
+  S3: 'https://www.gevernova.com/software/products/gridos/advanced-distribution-management-system',
+  S4: 'https://www.gevernova.com/software/products/gridos/distributed-energy-resources-management-system',
+  S5: 'https://www.gevernova.com/software/products/gridos/grid-data-fabric',
+  S6: 'https://www.gevernova.com/software/products/gridos-for-transmission',
+  S7: 'https://www.gevernova.com/news/press-releases/ge-vernova-introduces-gridosr-transmission-new-ai',
+  S8: 'https://gevernova.com/software/products/gridos/wide-area-management-system',
+  S9: 'https://www.gevernova.com/software/products/gridos/advanced-energy-management-system',
+  S10: 'https://gevernova.com/software/products/gridos/digital-dynamic-line-rating',
+  S11: 'https://www.gevernova.com/software/products/gridos/visual-intelligence',
+  S12: 'https://gevernova.com/software/products/gridos/energy-markets-software',
+  S13: 'https://gevernova.com/software/products/gridos',
+  S14: 'https://www.businesswire.com/news/home/20230206005216/en',
+  S15: 'https://www.turbomachinerymag.com/view/ge-vernova-launches-data-management-software-gridos-data-fabric',
+  S16: 'https://www.ge.com/news/press-releases/ge-vernova-acquires-greenbird-to-accelerate-gridos-innovation',
+  S17: 'https://www.enlit.world/library/acceleration-gridos-with-utilihive',
+  S18: 'https://gevernova.com/software/sites/default/files/2024-10/ge-vernovas-gridos-aims-to-bring-zero-trust-to-power-operations-1_0.pdf',
+  S19: 'https://www.gevernova.com/news/press-releases/ge-vernova-completes-sale-proficyr-software-business',
+  S20: 'https://new.alphaspread.com/security/mil/1gev/investor-relations',
+  S21: 'https://www.gevernova.com/grid-solutions/node?page=40',
+  S22: 'https://www.sec.gov/Archives/edgar/data/0001996810/000199681026000063/gevpressrelease1q26.htm',
+  S23: 'https://www.themuse.com/jobs/gevernova/derms-technology-specialist-a1f35b',
+  S24: 'https://www.usa.smart-grids-conference.com/news/meet-the-os-running-americas-electric-future',
+  S25: 'https://aws.amazon.com/marketplace/pp/prodview-cboqj2pokiexk',
+  S26: 'https://www.eurelectric.org/stories/ge-vernova-visual-grid-analytics/',
+  S27: 'https://www.gevernova.com/software/blog/lidar-vs-satellite-utility-vegetation-management',
+  S28: 'https://www.renewableenergyworld.com/power-grid/smart-grids/ge-vernova-acquires-alteia-bringing-new-intelligence-to-gridos-tech/',
+  S29: 'https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RW1hWZM',
+  S30: 'https://www.naspi.org/sites/default/files/2026-04/3-1_Khan-GEVernova_0.pdf',
+  S31: 'https://naspi.org/sites/default/files/2023-11/D2_S12_01_Parashar_GE_20230927.pdf',
+  S32: 'https://www.ge.com/digital/applications/transmission/wide-area-management-system-and-control-wams-wamc',
+  S33: 'https://www.g2.com/products/advanced-market-management-system-amms/discuss',
+  S34: 'https://aws.amazon.com/marketplace/pp/prodview-7wrrcdyrbjeqm',
+  S35: 'https://www.gevernova.com/software/products/gridos/power-grid-disruption',
+  S36: 'https://www.ge.com/digital/sites/default/files/download_assets/protect-against-power-grid-disruptions.pdf',
+  S37: 'https://www.gevernova.com/news/press-releases/ge-vernova-software-reliable-sustainable-electricity-norway',
+  S38: 'https://us.fitgap.com/products/039108/gridos',
+};
+
+// Notes the fact sheet attaches to particular sources.
+export const SOURCE_NOTES = {
+  S20: 'Segment description only — no financial figures are used.',
+  S22: 'Prolec GE acquisition date only — no financial figures are used.',
+};
+
+// Section 11.10: these and only these facts are vendor-reported.
+export const VENDOR_REPORTED_IDS = ['F-G4D-4', 'F-ADMS-4', 'F-DERMS-5', 'F-AEMS-5', 'F-DDLR-3', 'F-WAMS-5'];
+
+const RAW = [
+  // 11.0 Name
+  { id: 'F-NAME', sourceIds: ['S1', 'S13'],
+    text: '"GridOS" is GE Vernova\'s product name (registered trademark). "Grid Operating System" is how the name reads; GE Vernova itself describes GridOS as a software portfolio — a platform plus a suite of applications — for grid orchestration. Show this clarification once on Slide 1.' },
+
+  // 11.1 GE Vernova portfolio (no financials)
+  { id: 'F-PORT-1', sourceIds: ['S20'],
+    text: 'Three segments: Power, Wind, Electrification. The Electrification segment includes grid solutions, power conversion, electrification software, and solar and storage technologies for transmission, distribution, conversion, storage and orchestration of electricity.' },
+  { id: 'F-PORT-2', sourceIds: ['S21'],
+    text: 'Grid Solutions hardware includes HVDC systems, FACTSFLEX STATCOM, synchronous condensers, modular substation automation systems, SF6-free (g3) solutions, gas-insulated switchgear from 50 kV to 800 kV (g3 SF6-free GIS at 145 kV and 420 kV), live tank circuit breakers up to 800 kV, dead tank circuit breakers up to 550 kV, hybrid and compact switchgear, switchgear monitoring, HVDC switches and disconnectors, naval and marine energy grids.' },
+  { id: 'F-PORT-3', sourceIds: ['S22'],
+    text: 'Prolec GE (transformers) became fully owned by GE Vernova on 2 February 2026.' },
+  { id: 'F-PORT-4', sourceIds: ['S19'],
+    text: 'GE Vernova sold its Proficy manufacturing software business (HMI/SCADA, MES, historian) to TPG; completed 2 March 2026. GE Vernova describes GridOS as "its enterprise software and AI platform for grid orchestration." Do not list Proficy products as GE Vernova products.' },
+  // Section 11.1 gives this note without an ID; "F-PORT-NOTE" was assigned in this deck.
+  { id: 'F-PORT-NOTE', sourceIds: ['S20'],
+    text: 'Power and Wind product families on Slide 2 (gas turbines HA/F/aeroderivative, BWRX-300 SMR with GE Hitachi, hydro, steam, onshore wind, Haliade-X offshore, LM Wind Power blades) are general public knowledge about GE Vernova; mark the Slide 2 Power and Wind cards with a small note "product family overview" and no numbers.' },
+
+  // 11.2 GridOS history and platform
+  { id: 'F-ORCH', sourceIds: ['S1', 'S13'],
+    text: 'GridOS was announced 6 February 2023 by GE Digital as the first software portfolio designed for grid orchestration. It integrates energy data, network modeling and AI/ML-driven analytics to power applications developed by GE, utilities and partners. Grid orchestration is described as "a system-of-systems servicing actionable data and analytics."' },
+  { id: 'F-ARCH', sourceIds: ['S1', 'S14'],
+    text: 'Original platform pillars: Zero Trust grid security model applied throughout the platform; federated grid data fabric with a common transmission and distribution network model enabling a grid digital twin; suite of intelligent grid applications; hybrid cloud architecture (on-site or hybrid). Launch partners included AWS, Accenture and Infosys. The seven-layer model on Slide 4 is this deck\'s teaching model built from these descriptions.' },
+  { id: 'F-DF-1', sourceIds: ['S15', 'S5'],
+    text: 'GridOS Data Fabric launched February 2024; first grid-specific data fabric.' },
+  { id: 'F-DF-2', sourceIds: ['S15', 'S5'],
+    text: 'It uses federation to access decentralized data and virtualization to generate a centralized view across transmission, distribution, IT and OT applications. It is not a centralized database, data lake or warehouse.' },
+  { id: 'F-DF-3', sourceIds: ['S5'],
+    text: 'How it works: Discover (centralizes metadata; federation to unify access), Govern (metadata catalog organizes, indexes and unlocks data), Utilize (dashboards, query functions; low-code; minimal coding needed).' },
+  { id: 'F-DF-4', sourceIds: ['S15'],
+    text: 'Integrates OT and IT data and external sources such as weather, wildfire, traffic and emergency services. Itron collaborates to connect grid-edge data (e.g. residential solar, EVs).' },
+  { id: 'F-DF-5', sourceIds: ['S5'],
+    text: 'Use cases: T&D integration (forecasting, switching, emergency response, restoration, digital twin simulations), violation avoidance (DER backfeed), grid automation (training data for AI/ML), outage management (combining voltage, meter and location data).' },
+  { id: 'F-CONN-1', sourceIds: ['S16'],
+    text: 'GE Vernova acquired Greenbird Integration Technology (Norway) on 14 August 2023. Its Utilihive platform is a cloud-native iPaaS combining enterprise integration with a data lake optimized for energy; used by more than 230 utilities serving over 50 million consumers (as of 2023). Built with containerization.' },
+  { id: 'F-CONN-2', sourceIds: ['S5', 'S17'],
+    text: 'GridOS Data Fabric & GridOS Connect are presented together as the trusted grid data foundation; Utilihive\'s prebuilt connectors reduce integration time and provide real-time end-to-end monitoring of data flows.' },
+  { id: 'F-ZT-1', sourceIds: ['S1', 'S18'],
+    text: 'Zero Trust is built in, not bolted on, to protect resources from inside and outside threats. An analyst report notes GridOS combines zero trust, containerized architecture, "GridOS Evergreen" incremental updates instead of large destabilizing releases, and hybrid cloud with the ability to move from on-premises to cloud-native.' },
+  { id: 'F-TECH-1', sourceIds: ['S23'], onScreenQualifier: '(from GE Vernova job postings)',
+    text: '(from GE Vernova job postings) DERMS delivery uses Kubernetes-based microservices patterns; technologies listed include Docker, Kubernetes, Rancher RKE2, TLS/mTLS, PKI, Zero Trust, GitOps, DevSecOps; deployments across multi-cloud (AWS, Azure, GCP), hybrid, on-premises or edge.' },
+  { id: 'F-TECH-2', sourceIds: ['S18', 'S3', 'S8'],
+    text: 'Evergreen incremental updates (see F-ZT-1). ADMS FAQ mentions a microservices-based architecture for scalability; WAMS page says it scales via the GridOS microservice-based architecture.' },
+
+  // 11.3 GridOS for Distribution
+  { id: 'F-G4D-1', sourceIds: ['S2', 'S24'],
+    text: 'Launched February 2026. Five applications — Smallworld Geo Network Management, GridOS ADMS, GridOS DERMS, GridOS Field, GridOS Visual Intelligence — on a single governed data foundation, GridOS Data Fabric.' },
+  { id: 'F-G4D-2', sourceIds: ['S2'],
+    text: 'Engineered as a single solution on a federated data fabric; applications share one network model exchange and one governed data layer; planners, operators and field crews work from the same view.' },
+  { id: 'F-G4D-3', sourceIds: ['S2'],
+    text: 'Journey: Essentials → Disruption Management → Distribution Optimization → DER Orchestration → Distribution Intelligence.' },
+  { id: 'F-G4D-4', sourceIds: ['S2'], vendorReported: true, qualifier: 'GE Vernova customer claim',
+    text: 'Alabama Power avoided more than 112 million Customer Minutes of Interruption in 2025.' },
+  { id: 'F-G4D-5', sourceIds: ['S2'],
+    text: 'Data Fabric integrates with SCADA, AEMS, AMI/MDM, CIS and weather systems; federated model keeps data in its system of record; open standards and documented APIs.' },
+  { id: 'F-GNM-1', sourceIds: ['S2'],
+    text: 'Smallworld GNM creates a detailed digital representation of electric, gas, water or telecom networks; enterprise-wide network view with data quality and integrity enforced; supports a fully connected network model.' },
+  { id: 'F-FIELD-1', sourceIds: ['S2'],
+    text: 'GridOS Field Damage Assessment: damage assessments digitized at the source, validated against the network model, synchronized across ADMS, OMS and GIS; crews get latest geospatial and network context.' },
+
+  // 11.4 GridOS ADMS
+  { id: 'F-ADMS-1', sourceIds: ['S3'],
+    text: 'Three solutions in one: DMS (visualization, planning, monitoring, control, optimization), OMS (planned and unplanned outages, field mobility, damage assessment, predictive analytics), DERMS (built-in DER lifecycle capabilities).' },
+  { id: 'F-ADMS-2', sourceIds: ['S3'],
+    text: 'Functions listed by GE Vernova: real-time monitoring and control, load forecasting with AI/ML, FLISR, DER management, VVO, network optimization including congestion management, data management and analytics.' },
+  { id: 'F-ADMS-3', sourceIds: ['S3'],
+    text: 'OMS improves restoration, crew dispatch and customer communication; improves SAIDI, SAIFI and CMI.' },
+  { id: 'F-ADMS-4', sourceIds: ['S3'], vendorReported: true, qualifier: 'GE Vernova customer claims, individual utilities',
+    text: 'A US utility avoided over 150M CMI annually; a US utility avoided over $175M of Interruption Cost Estimates in one year.' },
+  { id: 'F-ADMS-5', sourceIds: ['S3'],
+    text: 'A centralized FLISR application pinpoints and isolates faults and restores power flow; GE Vernova features "model-based FISR" in a customer story.' },
+
+  // 11.5 GridOS DERMS
+  { id: 'F-DERMS-1', sourceIds: ['S4'],
+    text: 'Covers the full DER management lifecycle: integration, visualization, operation, control, optimization; modular; start small or roll out at scale.' },
+  { id: 'F-DERMS-2', sourceIds: ['S4'],
+    text: 'Core modules: Model Manager, Program Manager, Gateway (single point of communication with DERs and aggregators, certified to IEEE 2030.5), Operations, Forecasting, Optimization (scheduling based on grid constraints, economics and dynamic operating envelopes), Markets Orchestration, Flex Planning (short-term operational and long-term scenario planning including non-wires alternatives, study mode).' },
+  { id: 'F-DERMS-3', sourceIds: ['S4'],
+    text: 'Grid DERMS is centralized for grid-wide outcomes; Edge DERMS engages DER owners and customers with aggregation and localized control; they coordinate.' },
+  { id: 'F-DERMS-4', sourceIds: ['S4'],
+    text: 'Adheres to OpenADR and IEEE 2030.5.' },
+  { id: 'F-DERMS-5', sourceIds: ['S4'], vendorReported: true, qualifier: 'GE Vernova figures',
+    text: '90+ deployments globally; 127 million utility service points; ranked #1 Grid DERMS by Guidehouse Insights.' },
+  { id: 'F-DERMS-6', sourceIds: ['S4'],
+    text: 'Partners: EnergyHub, Nodes, EPEX Spot, Piclo, Clean Power Research, WeaveGrid, Plexigrid.' },
+  { id: 'F-DERMS-7', sourceIds: ['S4'],
+    text: 'Look-ahead analysis anticipates backfeeds and predicts power shortfalls or surpluses.' },
+  { id: 'F-DERMS-8', sourceIds: ['S4'],
+    text: 'Integrates with ADMS, AEMS, Edge DERMS and Markets for T&D visibility, coordination and control.' },
+
+  // 11.6 GridOS Visual Intelligence
+  { id: 'F-VI-1', sourceIds: ['S25', 'S26', 'S11'],
+    text: 'Processes drone imagery, satellite imagery, thermal scans and LiDAR point clouds; relies on satellite, drone, VIS/IR (visible / infrared) camera and LiDAR datasets; can use standard camera photos.' },
+  { id: 'F-VI-2', sourceIds: ['S26', 'S11', 'S27'],
+    text: 'Cloud-based SaaS platform with ready-to-use deep-learning models; overlays imagery with network maps to identify where vegetation must be trimmed; generates prioritized, actionable work orders.' },
+  { id: 'F-VI-3', sourceIds: ['S11', 'S26'],
+    text: 'Use cases: vegetation management, asset inspection (e.g. sagging poles, corrosion, wear), wildfire mitigation, storm damage assessment.' },
+  { id: 'F-VI-4', sourceIds: ['S26'],
+    text: 'Accurate GIS and high-quality LiDAR or photo datasets are required to train AI for asset inspection.' },
+  { id: 'F-VI-5', sourceIds: ['S28'],
+    text: 'GE Vernova announced the acquisition of Alteia (French visual-AI company) on 21 July 2025 to integrate visual data with operational data such as ADMS.' },
+
+  // 11.7 GridOS for Transmission
+  { id: 'F-G4T-1', sourceIds: ['S6', 'S7'],
+    text: 'Introduced 9 June 2026 at Orchestrate 2026 (Atlanta), alongside two AI whitepapers: one on grid-edge autonomy (adaptive zone management, predictive controls, software-defined architecture, integration with EMS and ADMS) and "AI in Grid Planning" (long-range planning, interconnection analysis, forecasting, risk management, anchored by a living digital grid twin).' },
+  { id: 'F-G4T-2', sourceIds: ['S6'],
+    text: 'Applications: AEMS (operational core), GridOS DDLR, GridOS WAMS, GridOS Forecasting, GridOS Visual Intelligence (add-on), GridOS Markets (add-on). Architecture: AEMS (operational core) + GridOS applications (intelligence layer) + Data Fabric & Connect (data foundation) forming a continuous decision loop.' },
+  { id: 'F-G4T-3', sourceIds: ['S6'],
+    text: 'Not a replacement for EMS; EMS remains the operational core of the control room.' },
+  { id: 'F-G4T-4', sourceIds: ['S6'],
+    text: 'Four competencies: Network Awareness, Capacity Management, Stability Management, Grid Resilience.' },
+  { id: 'F-G4T-5', sourceIds: ['S6'],
+    text: 'Journey: establish trusted network awareness → strengthen operational coordination → operate with predictive intelligence.' },
+
+  // 11.8 Transmission applications
+  { id: 'F-AEMS-1', sourceIds: ['S9'],
+    text: 'AEMS comprises EMS, WAMS and Analytics applications; helps manage renewables uncertainty and recovery from extreme weather.' },
+  { id: 'F-AEMS-2', sourceIds: ['S9'],
+    text: 'EMS functions listed by GE Vernova: real-time monitoring and visualization, supervisory control, economic dispatch, optimal power flow, contingency analysis, state estimation, energy scheduling and load forecasting, alarms and event management, integration with SCADA and market systems.' },
+  { id: 'F-AEMS-3', sourceIds: ['S9'],
+    text: 'Automated voltage control and system restoration; AI-based applications for renewables forecasting and inertia projections; Effective Inertia module measures and forecasts effective inertia; advanced generation optimization with real-time and look-ahead security analysis; Renewables Modeling & Forecasting; Grid Restoration.' },
+  { id: 'F-AEMS-4', sourceIds: ['S9'],
+    text: 'Fully compliant with NERC-CIP 002-009.' },
+  { id: 'F-AEMS-5', sourceIds: ['S9'], vendorReported: true,
+    qualifier: 'single demonstration project, PG&E (Pacific Gas and Electric), US (United States)',
+    text: 'Auto-restoration plan in less than 10 seconds for an area covering 3.5 million people.',
+    secondaryClaims: [
+      { text: 'Up to 40% inertia management cost avoided.',
+        qualifier: 'single demonstration project, NG ESO (National Grid Electricity System Operator), UK (United Kingdom); results vary by generation mix' },
+    ] },
+  { id: 'F-DDLR-1', sourceIds: ['S10', 'S29'],
+    text: 'DDLR combines GIS, EMS and asset data with weather data; hourly refreshed temperature, wind speed, direction and atmospheric conditions; computes ratings without sensors or new infrastructure.' },
+  { id: 'F-DDLR-2', sourceIds: ['S29', 'S10'],
+    text: 'Field-sensor-free computation of real-time and 10-day forecasted dynamic line ratings in compliance with IEEE 738; configurable "DLR mode" and "AAR mode" (plus Emergency); actual dynamic ratings (normal, emergency, N-modes) for FERC 881 and beyond (sub-transmission, distribution); effective dynamic ratings for FAC-008 (next most limiting components).' },
+  { id: 'F-DDLR-3', sourceIds: ['S10', 'S9'], vendorReported: true, qualifier: 'GE Vernova figures',
+    text: 'Up to 33% line capacity increase; up to 250× investment reduction compared with sensor-based solutions.',
+    footnote: 'AEMS page cites up to 90% transmission capacity increase "during favorable weather conditions" from a single demonstration project (PPL, US).' },
+  { id: 'F-WAMS-1', sourceIds: ['S30', 'S31'],
+    text: 'WAMS uses real-time data from PMUs; GE Vernova NASPI material shows PMU data at 60 FPS (frames per second).' },
+  { id: 'F-WAMS-2', sourceIds: ['S8'],
+    text: 'Applications: Oscillation Monitoring and Source Location, Disturbance Detection, Islanding Re-Synchronization Support, Effective Inertia Metering, Dynamic Model Validation & Calibration.' },
+  { id: 'F-WAMS-3', sourceIds: ['S30', 'S31', 'S32'],
+    text: '20 years of WAMS experience (PhasorPoint) re-architected in GridOS; 2021 IEEE NASPI Oscillation Source Location contest winner; extended frequency range for oscillation monitoring (up to 46 Hz / 54 Hz); sub-synchronous oscillation management.' },
+  { id: 'F-WAMS-4', sourceIds: ['S30'],
+    text: 'Oscillation monitoring and source location extended for load-driven oscillation detection at data-center interconnections (NASPI 2026).' },
+  { id: 'F-WAMS-5', sourceIds: ['S8', 'S9'], vendorReported: true, qualifier: 'GE Vernova customer claim',
+    text: 'Disturbance analysis reduced from days to hours.' },
+  { id: 'F-FC-1', sourceIds: ['S6'],
+    text: 'GridOS Forecasting: forecasting of load and renewable generation to anticipate variability; supports proactive planning and improved dispatch.' },
+
+  // 11.9 Markets and resilience
+  { id: 'F-MKT-1', sourceIds: ['S12'],
+    text: 'GridOS Markets facilitates market transactions including wholesale, balancing, settlements and spot.' },
+  { id: 'F-MKT-2', sourceIds: ['S12', 'S33'],
+    text: 'Covers day-ahead and real-time markets (security-constrained commitment, scheduling, dispatching), look-ahead and fast-start resource commitment and dispatch, forward capacity markets, FTR, ENTSO-E capacity allocation, scheduling and balancing markets, settlements, Limit Exchange Portal; ENTSO-E Markets module tailored to EU (ENTSO-E, ACER) regulations.' },
+  { id: 'F-MKT-3', sourceIds: ['S12'],
+    text: 'Advanced optimization engine clears bids in day-ahead and real-time markets based on market rules and customer requirements; AI/ML-ready.' },
+  { id: 'F-RES-1', sourceIds: ['S34', 'S35', 'S36'],
+    text: 'Disruption Prepare: impact assessments up to 72 hours before an event; uses historical weather, outage, cost and facility damage data with GIS data and high-resolution weather forecasts; hour-by-hour outage predictions at township level; hour-by-hour outage and damage forecasts by service center for the next 72 hours; alerts to workforce and community. Available on cloud marketplaces.' },
+  { id: 'F-RES-2', sourceIds: ['S35', 'S36'],
+    text: 'During an event, ADMS and its Enterprise OMS help assess, dispatch, report and restore; Outage Assist dispatches internal or contract crews, manages power flow by zones of impact, and augments control-center staff with remote resources via a mobile app.' },
+  { id: 'F-RES-3', sourceIds: ['S36'],
+    text: 'Storm Manager: acquire and activate resources, prioritize and direct recovery, manage logistics including housing and billing for recovery personnel, communicate with the workforce.' },
+
+  // 11.11 Deployment, customers, risks
+  { id: 'F-DEP-1', sourceIds: ['S37'],
+    text: 'One Grid Operation AS (Norway; for owners Tensio AS and Linea AS) purchased GridOS; plans to implement over three years; hybrid cloud with ADMS on-premises and other GridOS applications in AWS; includes ADMS and DERMS.' },
+  { id: 'F-DEP-2', sourceIds: ['S1', 'S23'],
+    text: 'GridOS supports on-premises, cloud and hybrid deployment.' },
+  { id: 'F-CUST-1', sourceIds: ['S2'],
+    text: 'Alabama Power (US) — see F-G4D-4.' },
+  { id: 'F-CUST-2', sourceIds: ['S37'],
+    text: 'One Grid Operation (Norway) — see F-DEP-1.' },
+  { id: 'F-CUST-3', sourceIds: ['S4'],
+    text: 'Stedin (Netherlands DSO) — end-to-end DER orchestration with GridOS DERMS.' },
+  { id: 'F-CUST-4', sourceIds: ['S4'],
+    text: 'Energy Queensland (Australia) — DERMS Gateway for DER connectivity with IEEE 2030.5.' },
+  { id: 'F-RISK-1', sourceIds: ['S38'],
+    text: 'Independent reviewers note ADMS programmes carry implementation risks including long timelines and dependency on SCADA, GIS and OMS data quality.' },
+];
+
+export const facts = RAW.map((f) => ({
+  vendorReported: false,
+  qualifier: null,
+  ...f,
+  sources: f.sourceIds.map((s) => SOURCES[s]),
+}));
+
+export const factById = Object.fromEntries(facts.map((f) => [f.id, f]));

@@ -1,0 +1,22 @@
+{
+  "name": "gridos-deck",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Interactive 3D explainer deck: how GE Vernova GridOS (Grid Operating System) works, application by application.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "node scripts/check-abbreviations.mjs && node scripts/check-facts.mjs",
+    "pages": "npm run check && vite build && node scripts/copy-to-docs.mjs"
+  },
+  "dependencies": {
+    "gsap": "3.12.5",
+    "three": "0.160.0"
+  },
+  "devDependencies": {
+    "vite": "5.4.21",
+    "vite-plugin-singlefile": "2.3.3"
+  }
+}
